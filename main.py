@@ -84,7 +84,7 @@ async def scan(connections, max_concurrency, timeout, connect_kwargs):
         async with semaphore:
             await asyncio.wait_for(connect(*args, **connect_kwargs), timeout=timeout)
     tasks = [asyncio.create_task(sem_task(args)) for args in connections]
-    await asyncio.gather(*tasks)
+    await asyncio.gather(*tasks, return_exceptions=True)
 
 def main():
     parser = argparse.ArgumentParser(description='AioHttpsHunter')
